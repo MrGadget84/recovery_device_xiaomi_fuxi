@@ -2,7 +2,7 @@
 
 | Device Tree | Link | Branch
 | ------------ | -------------------- | ------------ |
-| fuxi | https://github.com/MrGadget84/recovery_device_xiaomi_fuxi | ofox_12.1
+| fuxi | https://github.com/MrGadget84/recovery_device_xiaomi_fuxi | fox_12.1
 
 Xiaomi 13 (codenamed _"fuxi"_) is a high-end smartphone from Xiaomi.
 
