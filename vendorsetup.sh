@@ -53,7 +53,7 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
               echo -e "${RED}-- File \"$OF_MAINTAINER_AVATAR\" not found  ...${NC}"
               echo -e "${ORANGE}-- Downloading...${NC}"
               mkdir -p /tmp/misc
-              curl https://github.com/MrGadget84/recovery_device_xiaomi_fuxi/tree/ofox_12.1/tmp/maintainer.jpg >> $OF_MAINTAINER_AVATAR
+              curl https://github.com/MrGadget84/recovery_device_xiaomi_fuxi/blob/fox_12.1/tmp/maintainer.jpg >> $OF_MAINTAINER_AVATAR
               echo -e "${BLUE}-- Successfully Downloaded the Avatar Image \"$OF_MAINTAINER_AVATAR\" ...${NC}"
               echo -e "${PURPLE}-- Using A Custom Maintainer Avatar from the Downloaded Image \"$OF_MAINTAINER_AVATAR\" ...${NC}"
               echo -e "${GREEN}-- Done!"
