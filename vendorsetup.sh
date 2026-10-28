@@ -34,14 +34,6 @@ if [ -z "$1" -a -z "$FOX_BUILD_DEVICE" ]; then
 fi
 
 if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
-	export FOX_MAINTAINER_PATCH_VERSION="0"
-	export ALLOW_MISSING_DEPENDENCIES=true
-	export OF_MAINTAINER="MrGadget84"
-	export OF_MAINTAINER_AVATAR="/tmp/misc/MrGadget84.jpg"
-	export OF_MAGISK="/tmp/misc/Magisk-v31.1.zip"
-	export FOX_BUILD_TYPE="Stable"
-	export FOX_USE_SPECIFIC_MAGISK_ZIP=/tmp/Magisk-v31.1.zip
-	
 	if [ -n "$OF_MAINTAINER_AVATAR" ]; then
         if [ ! -f "$OF_MAINTAINER_AVATAR" ]; then
               # some colour codes
@@ -53,32 +45,43 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
               echo -e "${RED}-- File \"$OF_MAINTAINER_AVATAR\" not found  ...${NC}"
               echo -e "${ORANGE}-- Downloading...${NC}"
               mkdir -p /tmp/misc
-              curl https://github.com/MrGadget84/recovery_device_xiaomi_fuxi/blob/fox_12.1/tmp/maintainer.jpg >> $OF_MAINTAINER_AVATAR
+              curl https://github.com/MrGadget84/recovery_device_xiaomi_fuxi/blob/fox_12.1/tmp/MrGadget84.jpg >> $OF_MAINTAINER_AVATAR
               echo -e "${BLUE}-- Successfully Downloaded the Avatar Image \"$OF_MAINTAINER_AVATAR\" ...${NC}"
               echo -e "${PURPLE}-- Using A Custom Maintainer Avatar from the Downloaded Image \"$OF_MAINTAINER_AVATAR\" ...${NC}"
               echo -e "${GREEN}-- Done!"
         fi
     fi
 	
-	if [ -n "$FOX_USE_SPECIFIC_MAGISK_ZIP" ]; then
-    	if [ ! -f "$OF_MAGISK" ]; then
-              # some colour codes
-              RED='\033[0;31m'
-              GREEN='\033[0;32m'
-              ORANGE='\033[0;33m'
-              BLUE='\033[0;34m'
-              PURPLE='\033[0;35m'
-              echo -e "${RED}-- File \"$OF_MAGISK\" not found  ...${NC}"
-              echo -e "${ORANGE}-- Downloading...${NC}"
-              wget -O /tmp/misc/Magisk-v27.0.zip https://github.com/topjohnwu/Magisk/releases/download/v31.1/Magisk-v31.1.apk
-              echo -e "${BLUE}-- Successfully Downloaded the Magisk.zip File \"$OF_MAGISK\" ...${NC}"
-              echo -e "${PURPLE}-- Using A Custom Magisk.zip from the Downloaded file \"$OF_MAGISK\" ...${NC}"
-              echo -e "${GREEN}-- Done!"
-     	fi
-    fi
+	# Magisk
+	function download_magisk(){
+		# Usage: download_magisk <destination_path>
+		local DEST=$1
+		if [ -n "${DEST}" ]; then
+			if [ ! -e ${DEST} ]; then
+				echo "Downloading the Latest Release of Magisk..."
+				local LATEST_MAGISK_URL=$(curl -sL https://api.github.com/repos/topjohnwu/Magisk/releases/latest | grep browser_download_url | grep Magisk- | cut -d : -f 2,3 | tr -d '"')
+				mkdir -p $(dirname ${DEST})
+				wget -q ${LATEST_MAGISK_URL} -O ${DEST} || wget ${LATEST_MAGISK_URL} -O ${DEST}
+				local RCODE=$?
+				if [ "$RCODE" = "0" ]; then
+					echo "Successfully Downloaded Magisk to ${DEST}!"
+					echo "Done!"
+				else
+					echo "Failed to Download Magisk to ${DEST}!"
+				fi
+			fi
+		fi
+	}
+	export FOX_USE_SPECIFIC_MAGISK_ZIP=~/Magisk/Magisk.zip
+	download_magisk $FOX_USE_SPECIFIC_MAGISK_ZIP
 
+	export FOX_MAINTAINER_PATCH_VERSION="0"
+	export ALLOW_MISSING_DEPENDENCIES=true
+	export OF_MAINTAINER="MrGadget84"
+	export OF_MAINTAINER_AVATAR="/tmp/misc/MrGadget84.jpg"
+	export FOX_BUILD_TYPE="Stable"
 	export LC_ALL="C"
-	export TW_DEFAULT_LANGUAGE="ru"
+	export TW_DEFAULT_LANGUAGE="en"
 	export FOX_RECOVERY_SYSTEM_PARTITION="/dev/block/mapper/system"
 	export FOX_RECOVERY_VENDOR_PARTITION="/dev/block/mapper/vendor"
 	export OF_USE_LZ4_COMPRESSION=1
@@ -104,10 +107,14 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
 	export FOX_USE_XZ_UTILS=1
 	export FOX_USE_NANO_EDITOR=1
 	export OF_FORCE_built_KERNEL=1
+	export FOX_AB_DEVICE=1
 	export FOX_VIRTUAL_AB_DEVICE=1
 	export OF_DYNAMIC_FULL_SIZE=9663676416
 	export OF_DEFAULT_TIMEZONE="TAIST-8;TAIDT"
 	export FOX_USE_DATA_RECOVERY_FOR_SETTINGS=1
+	export FOX_ENABLE_KERNELSU_SUPPORT=1
+	export FOX_ENABLE_KERNELSU_NEXT_SUPPORT=1
+	export FOX_ENABLE_SUKISU_SUPPORT=1
 	[ "$FOX_BUILD_TYPE" = "Stable" ] && export OF_ADVANCED_SECURITY=1;
 else
 	if [ -z "$FOX_BUILD_DEVICE" -a -z "$BASH_SOURCE" ]; then
