@@ -34,12 +34,13 @@ if [ -z "$1" -a -z "$FOX_BUILD_DEVICE" ]; then
 fi
 
 if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
+	export FOX_MAINTAINER_PATCH_VERSION="0"
 	export ALLOW_MISSING_DEPENDENCIES=true
-	export OF_MAINTAINER="Adontoo"
-	export OF_MAINTAINER_AVATAR="/tmp/misc/Adontoo.jpg"
-	export OF_MAGISK="/tmp/misc/Magisk-v27.0.zip"
-	export FOX_BUILD_TYPE="Beta"
-	export FOX_USE_SPECIFIC_MAGISK_ZIP=/tmp/Magisk-v27.0.zip
+	export OF_MAINTAINER="MrGadget84"
+	export OF_MAINTAINER_AVATAR="/tmp/misc/MrGadget84.jpg"
+	export OF_MAGISK="/tmp/misc/Magisk-v31.1.zip"
+	export FOX_BUILD_TYPE="Stable"
+	export FOX_USE_SPECIFIC_MAGISK_ZIP=/tmp/Magisk-v31.1.zip
 	
 	if [ -n "$OF_MAINTAINER_AVATAR" ]; then
         if [ ! -f "$OF_MAINTAINER_AVATAR" ]; then
@@ -52,7 +53,7 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
               echo -e "${RED}-- File \"$OF_MAINTAINER_AVATAR\" not found  ...${NC}"
               echo -e "${ORANGE}-- Downloading...${NC}"
               mkdir -p /tmp/misc
-              curl https://github.com/adontoo/pixelos_manifest/blob/icon/snippets/icon.jpg >> $OF_MAINTAINER_AVATAR
+              curl https://github.com/MrGadget84/recovery_device_xiaomi_fuxi/tree/ofox_12.1/tmp/maintainer.jpg >> $OF_MAINTAINER_AVATAR
               echo -e "${BLUE}-- Successfully Downloaded the Avatar Image \"$OF_MAINTAINER_AVATAR\" ...${NC}"
               echo -e "${PURPLE}-- Using A Custom Maintainer Avatar from the Downloaded Image \"$OF_MAINTAINER_AVATAR\" ...${NC}"
               echo -e "${GREEN}-- Done!"
@@ -69,7 +70,7 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
               PURPLE='\033[0;35m'
               echo -e "${RED}-- File \"$OF_MAGISK\" not found  ...${NC}"
               echo -e "${ORANGE}-- Downloading...${NC}"
-              wget -O /tmp/misc/Magisk-v27.0.zip https://github.com/topjohnwu/Magisk/releases/download/v27.0/Magisk-v27.0.apk
+              wget -O /tmp/misc/Magisk-v27.0.zip https://github.com/topjohnwu/Magisk/releases/download/v31.1/Magisk-v31.1.apk
               echo -e "${BLUE}-- Successfully Downloaded the Magisk.zip File \"$OF_MAGISK\" ...${NC}"
               echo -e "${PURPLE}-- Using A Custom Magisk.zip from the Downloaded file \"$OF_MAGISK\" ...${NC}"
               echo -e "${GREEN}-- Done!"
@@ -77,6 +78,7 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
     fi
 
 	export LC_ALL="C"
+	export TW_DEFAULT_LANGUAGE="ru"
 	export FOX_RECOVERY_SYSTEM_PARTITION="/dev/block/mapper/system"
 	export FOX_RECOVERY_VENDOR_PARTITION="/dev/block/mapper/vendor"
 	export OF_USE_LZ4_COMPRESSION=1
@@ -104,6 +106,7 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
 	export OF_FORCE_built_KERNEL=1
 	export FOX_VIRTUAL_AB_DEVICE=1
 	export OF_DYNAMIC_FULL_SIZE=9663676416
+	export OF_DISABLE_MIUI_OTA_BY_DEFAULT=1
 	export OF_DEFAULT_TIMEZONE="TAIST-8;TAIDT"
 	export FOX_USE_DATA_RECOVERY_FOR_SETTINGS=1
 	[ "$FOX_BUILD_TYPE" = "Stable" ] && export OF_ADVANCED_SECURITY=1;
