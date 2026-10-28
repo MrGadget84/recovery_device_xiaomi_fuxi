@@ -34,24 +34,6 @@ if [ -z "$1" -a -z "$FOX_BUILD_DEVICE" ]; then
 fi
 
 if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
-	if [ -n "$OF_MAINTAINER_AVATAR" ]; then
-        if [ ! -f "$OF_MAINTAINER_AVATAR" ]; then
-              # some colour codes
-              RED='\033[0;31m'
-              GREEN='\033[0;32m'
-              ORANGE='\033[0;33m'
-              BLUE='\033[0;34m'
-              PURPLE='\033[0;35m'
-              echo -e "${RED}-- File \"$OF_MAINTAINER_AVATAR\" not found  ...${NC}"
-              echo -e "${ORANGE}-- Downloading...${NC}"
-              mkdir -p /tmp/misc
-              curl https://github.com/MrGadget84/recovery_device_xiaomi_fuxi/blob/fox_12.1/tmp/MrGadget84.jpg >> $OF_MAINTAINER_AVATAR
-              echo -e "${BLUE}-- Successfully Downloaded the Avatar Image \"$OF_MAINTAINER_AVATAR\" ...${NC}"
-              echo -e "${PURPLE}-- Using A Custom Maintainer Avatar from the Downloaded Image \"$OF_MAINTAINER_AVATAR\" ...${NC}"
-              echo -e "${GREEN}-- Done!"
-        fi
-    fi
-	
 	# Magisk
 	function download_magisk(){
 		# Usage: download_magisk <destination_path>
@@ -78,7 +60,6 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
 	export FOX_MAINTAINER_PATCH_VERSION="0"
 	export ALLOW_MISSING_DEPENDENCIES=true
 	export OF_MAINTAINER="MrGadget84"
-	export OF_MAINTAINER_AVATAR="/tmp/misc/MrGadget84.jpg"
 	export FOX_BUILD_TYPE="Stable"
 	export LC_ALL="C"
 	export TW_DEFAULT_LANGUAGE="ru"
